@@ -44,32 +44,32 @@ def recursive_2(d1, d2, dOut):
 
 
 ## A small test case
-source ={
-            "properties": {
-                "user_id": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string",
-                    "maxLength": 30,
-                    "minLength": 2
-                }
-            }     
-}
-d ={}
-destination ={
-            "properties": {
-                "user_id": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-}
-## try running it!
-recursive_2(source, destination,d)
-print(d)
+# source ={
+#             "properties": {
+#                 "user_id": {
+#                     "type": "string"
+#                 },
+#                 "username": {
+#                     "type": "string",
+#                     "maxLength": 30,
+#                     "minLength": 2
+#                 }
+#             }     
+# }
+# d ={}
+# destination ={
+#             "properties": {
+#                 "user_id": {
+#                     "type": "string"
+#                 },
+#                 "username": {
+#                     "type": "string"
+#                 }
+#             }
+# }
+# ## try running it!
+# recursive_2(source, destination,d)
+# print(d)
 
 
 ## Test it on actual json files
@@ -82,12 +82,12 @@ def merge_JsonFiles(filename):
             data2 = json.load(infile2)
             data3 = recursive(data1, data2)
     
-    print(data3)
+    # print(data3)
                 
 
-    with open('MergeJsonDemo.json', 'w') as output_file:
+    with open('../gateway-service/docs/swagger.json', 'w') as output_file:
         json.dump(data3, output_file, indent=4)
 
-# files=['../account-service/docs/swagger.json','../payment-service/docs/swagger.json']
+files=['../account-service/docs/swagger.json','../payment-service/docs/swagger.json']
 
-# merge_JsonFiles(files)
+merge_JsonFiles(files)
