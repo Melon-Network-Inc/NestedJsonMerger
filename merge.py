@@ -1,15 +1,19 @@
 import json
+import argparse
+
+'''
+This class merges two swagger files and outputs a new swagger file.
+'''
 
 
 class SwaggerMerger(object):
-    
-    ## Constructor
+    # Constructor
     def __init__(self, input1=None, input2=None, output=None):
         self.input1 = input1
         self.input2 = input2
         self.output = output
 
-    ## Recursive function to merge two dictionaries and output a new dictionary.
+    # Recursive function to merge two dictionaries and output a new dictionary.
     def recursive_merge(self, d1, d2):
         d = {}
         for key, value in d1.items():
@@ -18,18 +22,19 @@ class SwaggerMerger(object):
                     d[key] = self.recursive_merge(d1[key], d2[key])
                 if (type(value) is not dict):
                     if (d1[key] == d2[key]):
-                        d[key] = value # copy non-dict value eg string
+                        d[key] = value  # copy non-dict value eg string
                     else:
-                        d[key] = [d1[key], d2[key]] #append conflicts into a list
+                        # append conflicts into a list
+                        d[key] = [d1[key], d2[key]]
             else:
-                d[key] = value # shallow copy the value
+                d[key] = value  # shallow copy the value
         for key, value in d2.items():
             if key not in d1:
                 d[key] = value
         return d
 
+    # Test it on actual json files
 
-    ## Test it on actual json files
     def run(self):
         infile1 = open(self.input1, 'r')
         infile2 = open(self.input2, 'r')
@@ -44,10 +49,13 @@ class SwaggerMerger(object):
 
 
 if __name__ == '__main__':
-    input_files=['../account-service/docs/swagger.json','../payment-service/docs/swagger.json']
-    output_file = '../gateway-service/docs/swagger.json'
+    parser = argparse.ArgumentParser(description='Merge two swagger files')
+    parser.add_argument('input1', help='First swagger file')
+    parser.add_argument('input2', help='Second swagger file')
+    parser.add_argument('output', help='Output file')
+    args = parser.parse_args()
 
-    sm = SwaggerMerger(input1=input_files[0], input2=input_files[1], output=output_file)
+    sm = SwaggerMerger(input1=args.input1,
+                       input2=args.input2,
+                       output=args.output)
     sm.run()
-
-
